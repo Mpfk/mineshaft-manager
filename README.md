@@ -1,21 +1,20 @@
-# appLaunchpad 🚀
+# mineshaft-manager ⛏️
 
-appLaunchpad is a Terraform starter pack which provides the foundational elements of a web app. Build on top of it to make deploying your projects easier!
+Serverless app for managing a Minecraft server
 
 ## What does it do?
 
-This project is meant to be a helpful foundation for other projects! Add your own web app to the `/applications/webApp/` folder, then run the deployment instructions below. The scripts will: 
+This project deploys a minecraft server and web app. The web app allows easy control and configuration of the server.
 
-1. Create an AWS Code Commit repository
-2. Push your code as an initial commit to that repository
-3. Create an Amplify App using the repository
-4. Set up production and devleopment branches
-5. [Optional] Configure a custom domain through Route 53
+1. Deploy Mineshaft Manager through CodeCommit and Amplify
+2. Launch a Minecraft Server
+3. [Optional] Configure a custom domain through Route 53
 
 Feel free to fork and add additional module which tie into your application.
 
 ## Table of Contents
 
+- [Dependencies](#dependencies)
 - [Directory Structure](#directory-structure)
 - [Configure AWS Credentials](#configure-aws-credentials)
 - [Prerequisites](#prerequisites)
@@ -23,6 +22,10 @@ Feel free to fork and add additional module which tie into your application.
 - [Clean up](#clean-up)
 - [Variables](#variables)
 - [Outputs](#outputs)
+
+## Dependencies
+
+This project depends on the `minecraft-spot-pricing` Cloud Formation Template created by GitHub user `vatertime`. Terraform will automatically pull the template from github, save it to an S3 bucket, and use the default values for the parameters when it deploys. Check out the original template here: [vatertime/minecraft-spot-pricing](https://github.com/vatertime/minecraft-spot-pricing/tree/master)
 
 ## Directory Structure
 
@@ -32,22 +35,23 @@ The project is structured is as follows:
 .
 ├── applications/
 │   └── webApp/
-│       ├── index.html
-│       └── README.md
+│       └── index.html
 ├── infrastructure/
 │   ├── main.tf
 │   ├── modules/
-│   │   └── webApp/
-│   │       ├── amplify.tf
-│   │       ├── credentials.tf
-│   │       ├── domain.tf
-│   │       ├── outputs.tf
-│   │       ├── repository.tf
-│   │       └── variables.tf
+│       ├── minecraftServer/
+│       │   ├── cloudformation.tf
+│       │   └── variables.tf
+│       └── webApp/
+│           ├── amplify.tf
+│           ├── credentials.tf
+│           ├── domain.tf
+│           ├── outputs.tf
+│           ├── repository.tf
+│           └── variables.tf
 │   └── variables.tf
-├── .gitignore
 ├── LICENSE
-└── README.md (this file)
+└── README.md
 ```
 
 ## Prerequisites
@@ -108,7 +112,7 @@ terraform apply "terraform.tfplan"
 
 ## Clean up
 
-If you want to permanently delete the resources created by appLaunchpad, destroy the deployed infrastructure with the following command:
+If you want to permanently delete the resources created by Mineshaft Manager, destroy the deployed infrastructure with the following command:
 
 ```sh
 terraform destroy
