@@ -12,3 +12,11 @@ module "webApp" {
   prod_subdomain = var.prod_subdomain
   dev_subdomain  = var.dev_subdomain
 }
+
+module "minecraftServer" {
+  source        = "./modules/minecraftServer"
+  aws_region    = var.aws_region
+  aws_profile   = var.aws_profile
+  project       = var.project
+  custom_domain = var.custom_domain
+}
